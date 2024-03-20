@@ -64,7 +64,7 @@ The account associated with your private key must have both Base Sepolia and Opt
 
 ## 🏃🏽🏃🏻‍♀️ Instructions
 
-The project comes with an almost complete contract `QueryUC.sol` in the contracts directory. Your task is to implement two functions:
+The project comes with an almost complete contract `CCQueryUC.sol` in the contracts directory. Your task is to implement two functions:
 
 1. `sendUniversalPacket` - You will need to configure the payload to correctly be decoded and pass conditional logic of the base contract you are sending the packet to. 
 2. `onUniversalAcknowledgement` - You will need to emit the event `LogAcknowledgment` in order to provide evidence to complete this challenge. 
