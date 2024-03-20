@@ -1,0 +1,34 @@
+node_modules
+.env
+coverage
+coverage.json
+typechain
+typechain-types
+dist/
+
+#Hardhat files
+cache
+artifacts
+
+# Foundry files
+out/
+forge-cache/
+
+*.tgz
+src/contracts.template.ts
+
+.idea/
+.direnv/
+forge-cache/
+
+node_modules
+.env
+coverage
+coverage.json
+typechain
+typechain-types
+
+#Hardhat files
+cache
+artifacts
+

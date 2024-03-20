@@ -1,0 +1,7 @@
+@openzeppelin/=lib/openzeppelin-contracts/
+@lazyledger/protobuf3-solidity-lib/=lib/protobuf3-solidity-lib/
+ds-test/=lib/forge-std/lib/ds-test/src/
+forge-std/=lib/forge-std/src/
+optimism/=lib/optimism/packages/contracts-bedrock/src/
+base64/=lib/base64
+proto/=lib/proto

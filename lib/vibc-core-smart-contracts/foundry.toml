@@ -1,0 +1,11 @@
+[profile.default]
+solc-version = '0.8.15'
+src = 'contracts'
+out = 'out'
+libs = ['lib']
+test = 'test'
+cache_path  = 'forge-cache'
+gas_reports = ['*']
+fs_permissions = [{ access = 'read', path = './test/payload'}]
+
+# See more config options https://book.getfoundry.sh/reference/config.html

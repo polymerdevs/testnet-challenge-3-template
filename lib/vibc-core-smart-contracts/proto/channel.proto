@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+// this file is copied from ibc-go and stripped from unnecessary clutter. Note that the Channel and
+// CounterParty messages have been renamed to ProtoChannel and ProtoCounterParty to avoid collisions with
+// already existent types of the same name.
+
+// Channel defines pipeline for exactly-once packet delivery between specific
+// modules on separate blockchains, which has at least one end capable of
+// sending packets and one end capable of receiving packets.
+message ProtoChannel {
+  // current state of the channel end
+  int32 state = 1;
+  // whether the channel is ordered or unordered
+  int32 ordering = 2;
+  // counterparty channel end
+  ProtoCounterparty counterparty = 3;
+  // list of connection identifiers, in order, along which packets sent on
+  // this channel will travel
+  repeated string connection_hops = 4;
+  // opaque channel version, which is agreed upon during the handshake
+  string version = 5;
+}
+
+
+// Counterparty defines a channel end counterparty
+message ProtoCounterparty {
+  // port on the counterparty chain which owns the other end of the channel.
+  string port_id = 1;
+  // channel end on the counterparty chain
+  string channel_id = 2;
+}

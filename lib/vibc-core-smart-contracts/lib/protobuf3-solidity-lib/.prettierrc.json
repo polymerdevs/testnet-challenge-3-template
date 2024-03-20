@@ -1,0 +1,14 @@
+{
+  "printWidth": 120,
+  "bracketSpacing": true,
+  "overrides": [
+    {
+      "files": "*.sol",
+      "options": {
+        "printWidth": 120,
+        "tabWidth": 4,
+        "explicitTypes": "always"
+      }
+    }
+  ]
+}
