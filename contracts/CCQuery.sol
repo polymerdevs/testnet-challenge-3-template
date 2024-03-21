@@ -8,6 +8,9 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 contract CCQuery is CustomChanIbcApp {
     // app specific state
     uint64 private counter;
+    
+    uint64 public immutable CONST_TIME = 1e9;
+
     mapping(uint64 => address) public counterMap;
 
     event LogQuery(address indexed caller, string query, uint64 counter);
@@ -67,13 +70,13 @@ contract CCQuery is CustomChanIbcApp {
     function sendPacket(bytes32 channelId, uint64 timeoutSeconds) external {
         // NOTE: This should be never used
         // encoding the caller address to update counterMap on destination chain
-        // bytes memory payload = abi.encode(msg.sender, "crossChainQuery");
+        bytes memory payload = abi.encode(msg.sender, "crossChainQuery");
 
         // // setting the timeout timestamp at 10h from now
-        // uint64 timeoutTimestamp = uint64((block.timestamp + timeoutSeconds) * 1000000000);
+        uint64 timeoutTimestamp = uint64((block.timestamp + timeoutSeconds) * CONST_TIME);
 
         // // // calling the Dispatcher to send the packet
-        // dispatcher.sendPacket(channelId, payload, timeoutTimestamp);
+        dispatcher.sendPacket(channelId, payload, timeoutTimestamp);
     }
 
     /**
