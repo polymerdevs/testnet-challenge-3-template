@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 contract CCQueryUC is UniversalChanIbcApp {
     // app specific state
     uint64 private counter;
+    uint64 public immutable CONST_TIME = 1e9;
     mapping(uint64 => address) public counterMap;
     mapping(address => bool) public addressMap;
 
@@ -41,15 +42,13 @@ contract CCQueryUC is UniversalChanIbcApp {
      * @param timeoutSeconds The timeout in seconds (relative).
      */
     function sendUniversalPacket(address destPortAddr, bytes32 channelId, uint64 timeoutSeconds) external {
-        // TODO - Implement sendUniversalPacket to send a packet which will be received by the other chain
-        // The packet should contain the caller's address and a query string
-        // See onRecvUniversalPacket for the expected packet format in https://forum.polymerlabs.org/t/challenge-3-cross-contract-query-with-polymer/475
-        // Steps:
-        // 1. Encode the caller's address and the query string into a payload
-        // 2. Set the timeout timestamp at 10h from now
-        // 3. Call the IbcUniversalPacketSender to send the packet
+         bytes memory payload = abi.encode(msg.sender, "crossChainQuery");
 
-        // Example of how to properly encode, set timestamp and send a packet can be found in XCounterUC.sol
+        uint64 timeoutTimestamp = uint64((block.timestamp + timeoutSeconds) * CONST_TIME);
+
+        IbcUniversalPacketSender(mw).sendUniversalPacket(
+            channelId, IbcUtils.toBytes32(destPortAddr), payload, timeoutTimestamp
+        );   
     }
 
     /**
@@ -65,12 +64,7 @@ contract CCQueryUC is UniversalChanIbcApp {
         onlyIbcMw
         returns (AckPacket memory ackPacket)
     {
-        // You can leave the following function empty
-        // This contract will need to be sending and acknowledging packets and not receiving them to complete the challenge
-        // The reference implemention of onRecvUniversalPacket on the base contract you will be calling is below
-
-        /*
-        recvedPackets.push(UcPacketWithChannel(channelId, packet));
+      recvedPackets.push(UcPacketWithChannel(channelId, packet));
         uint64 _counter = getCounter();
 
         (address _caller, string memory _query) = abi.decode(packet.appData, (address, string));
@@ -92,7 +86,6 @@ contract CCQueryUC is UniversalChanIbcApp {
 
             return AckPacket(true, abi.encode(_ackData));
         }
-        */
     }
 
     /**
@@ -108,13 +101,12 @@ contract CCQueryUC is UniversalChanIbcApp {
         override
         onlyIbcMw
     {
-        // TODO - Implement onUniversalAcknowledgement to handle the received acknowledgment packet
-        // The packet should contain the secret message from the Base Contract at address: 0x528f7971cE3FF4198c3e6314AA223C83C7755bf7
-        // Steps:
-        // 1. Decode the counter from the ack packet
-        // 2. Emit a LogAcknowledgement event with the message
+        ackPackets.push(UcAckWithChannel(channelId, packet, ack));
 
-        // An example of how to properly decode and handle an ack packet can be found in XCounterUC.sol
+        // decode the counter from the ack packet
+        (string memory _secretMessage) = abi.decode(ack.data, (string));
+
+        emit LogAcknowledgement(_secretMessage);
     }
 
     /**

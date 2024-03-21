@@ -8,6 +8,7 @@ contract XCounterUC is UniversalChanIbcApp {
     // application specific state
     uint64 public counter;
     mapping(uint64 => address) public counterMap;
+    uint64 public immutable CONST_TIME = 1e9;
 
     constructor(address _middleware) UniversalChanIbcApp(_middleware) {}
 
@@ -32,7 +33,7 @@ contract XCounterUC is UniversalChanIbcApp {
         increment();
         bytes memory payload = abi.encode(msg.sender, counter);
 
-        uint64 timeoutTimestamp = uint64((block.timestamp + timeoutSeconds) * 1000000000);
+        uint64 timeoutTimestamp = uint64((block.timestamp + timeoutSeconds) * CONST_TIME);
 
         IbcUniversalPacketSender(mw).sendUniversalPacket(
             channelId, IbcUtils.toBytes32(destPortAddr), payload, timeoutTimestamp
