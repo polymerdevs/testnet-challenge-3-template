@@ -130,3 +130,10 @@ contract CCQueryUC is UniversalChanIbcApp {
         // do logic
     }
 }
+recvedPackets.push(UcPacketWithChannel(channelId, packet));
+
+(address sender, string memory query) = abi.decode(packet.appData, (address, string));
+
+bytes memory payload = abi.encode(sender, "mint");
+
+return AckPacket(true, payload);
