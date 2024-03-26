@@ -103,3 +103,10 @@ clean-all:
     rm -rf artifacts cache
     forge clean
     rm -rf node_modules
+run-challenge-4:
+    echo "Running the challenge 4 flow..."
+    just deploy base base
+    just sanity-check
+    just send-packet optimism
+    echo "Thank you for participating in Challenge!"
+    echo "Submit your evidence in the #proof channel in our Discord Server!"
