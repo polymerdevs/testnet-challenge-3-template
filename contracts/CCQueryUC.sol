@@ -39,7 +39,7 @@ contract CCQueryUC is UniversalChanIbcApp {
      * @param destPortAddr The address of the destination application.
      * @param channelId The ID of the channel to send the packet to.
      * @param timeoutSeconds The timeout in seconds (relative).
-     */
+     */https://forum.polymerlabs.org/t/challenge-4-cross-chain-nft-minting-with-polymer/595
     function sendUniversalPacket(address destPortAddr, bytes32 channelId, uint64 timeoutSeconds) external {
         // TODO - Implement sendUniversalPacket to send a packet which will be received by the other chain
         // The packet should contain the caller's address and a query string
